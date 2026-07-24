@@ -37,6 +37,9 @@ class Client extends Model
      * the digits were entered (spaces, dashes, +61 prefix, etc). Numbers
      * that don't match a recognisable 10-digit AU shape are left as typed.
      */
+    /**
+     * @return Attribute<string|null, string|null>
+     */
     protected function phone(): Attribute
     {
         return Attribute::make(

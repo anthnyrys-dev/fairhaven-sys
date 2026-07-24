@@ -20,6 +20,15 @@ class TimeEntriesTable
                     ->sortable(),
                 TextColumn::make('technician.name')
                     ->label('Technician')
+                    ->formatStateUsing(function (string $state): string {
+                        $parts = explode(' ', trim($state));
+
+                        if (count($parts) < 2) {
+                            return $state;
+                        }
+
+                        return mb_substr($parts[0], 0, 1).'. '.end($parts);
+                    })
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('job.job_no')
