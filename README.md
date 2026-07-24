@@ -14,14 +14,6 @@ Start with [`DATA_MODEL.md`](DATA_MODEL.md) for the entities and the one relatio
 ```bash
 cp .env.example .env
 
-# Installs PHP dependencies via a disposable container — no local PHP/Composer needed.
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php85-composer:latest \
-    composer install --ignore-platform-reqs
-
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan key:generate
 
@@ -35,7 +27,7 @@ docker run --rm \
 
 (Already have PHP 8.5 and Composer installed locally? `composer install` and `npm install` work the same without the container detour — Sail only needs Docker for `up`.)
 
-Open `http://localhost:8083/admin` and sign in with:
+Open `http://localhost:8083/admin` or `http://fairhaven-sys.test/admin` and sign in with:
 
 - **Email:** `office@fairhaven.test`
 - **Password:** `password`
