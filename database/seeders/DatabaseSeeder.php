@@ -18,8 +18,11 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Fairhaven Office',
+            'email' => 'office@fairhaven.test',
         ]);
+
+        // Artisan::call('fairhaven:import');
+        // $this->command->info(trim(Artisan::output()));
     }
 }
