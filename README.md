@@ -77,6 +77,12 @@ Laravel's own queue system already owns a table called `jobs` (see `database/mig
 
 Validation reflects the rules inferred from the data: Job No must match `J-####`, job status and type are fixed lists (not free text), a completion date can't be before the booking date, and a technician's charge rate can't be set below their cost rate.
 
+## **DEMO**
+```
+path to demo video attached:
+/demo.mov
+```
+
 ## **Screenshots**
 ![Setup](screenshots/setup.png)
 ![Clients](screenshots/clients.png)
