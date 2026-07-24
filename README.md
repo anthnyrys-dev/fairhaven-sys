@@ -50,7 +50,7 @@ The real workbook is committed at `database/data/Trial-Task-Data-Fairhaven.xlsx`
 ./vendor/bin/sail artisan fairhaven:import /path/to/another-workbook.xlsx
 ```
 
-The importer is `app/Console/Commands/ImportFairhavenWorkbook.php`, reading via Laravel Excel (`app/Imports/FairhavenWorkbookImport.php` + `SheetToArrayImport.php`). It's also wired into `database/seeders/DatabaseSeeder.php`, so `migrate:fresh --seed` does the whole setup in one command.
+The `fairhaven:import` command (`app/Console/Commands/ImportFairhavenWorkbook.php`) is a thin CLI wrapper — the actual import logic lives in `App\Services\FairhavenWorkbookImporter`, reading via Laravel Excel (`app/Imports/FairhavenWorkbookImport.php` + `SheetToArrayImport.php`). Keeping the logic in a service rather than the command means it can be exercised directly in tests without going through the console kernel. The command is also wired into `database/seeders/DatabaseSeeder.php`, so `migrate:fresh --seed` does the whole setup in one command.
 
 **Note on the `maatwebsite/excel` dependency**: its only stable release line (3.1.x) caps out at Laravel ^12 and PHP <8.5, so it can't be installed on this project's Laravel 13 / PHP 8.5 stack. The project pins the package to a specific commit on its unreleased `4.x` branch (`composer.json`'s `4.x-dev#a9a16f1...`) rather than floating on `dev-4.x`, so the dependency can't silently change underneath the app before that branch is tagged stable.
 
@@ -66,7 +66,7 @@ Laravel's own queue system already owns a table called `jobs` (see `database/mig
 ./vendor/bin/sail pint                   # code style
 ```
 
-`tests/Feature/FairhavenImportTest.php` runs the import against the real committed workbook and asserts the tricky cases resolve correctly (merged technician names, the discovered technician, the multi-technician job, the legacy stub job, the self-cancelling correction entry). `tests/Unit/ImportFairhavenWorkbookTest.php` covers the importer's pure parsing/matching helpers (date formats, decimal parsing, status/type/role matching) in isolation, without touching the database.
+`tests/Feature/FairhavenImportTest.php` runs the import (via the `fairhaven:import` command) against the real committed workbook and asserts the tricky cases resolve correctly (merged technician names, the discovered technician, the multi-technician job, the legacy stub job, the self-cancelling correction entry). `tests/Unit/FairhavenWorkbookImporterTest.php` covers `App\Services\FairhavenWorkbookImporter` directly — its pure parsing/matching helpers (date formats, decimal parsing, status/type/role matching) in isolation, plus the public `import()` method's return counts and idempotency against the real workbook.
 
 ## What the panel does
 
