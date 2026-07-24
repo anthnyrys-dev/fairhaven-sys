@@ -76,3 +76,10 @@ Laravel's own queue system already owns a table called `jobs` (see `database/mig
 - **Timesheets** — direct hour entry, independent of opening a job (mirrors how technicians actually log hours week to week).
 
 Validation reflects the rules inferred from the data: Job No must match `J-####`, job status and type are fixed lists (not free text), a completion date can't be before the booking date, and a technician's charge rate can't be set below their cost rate.
+
+## **Screenshots**
+![Setup](screenshots/setup.png)
+![Clients](screenshots/clients.png)
+![Jobs](screenshots/jobs.png)
+![Technicians](screenshots/technicians.png)
+![Timesheets](screenshots/timesheets.png)
